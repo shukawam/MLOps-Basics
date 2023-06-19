@@ -69,6 +69,27 @@ Refer to the blog: [DVC Configuration](https://www.ravirajag.dev/blog/mlops-dvc)
 python convert_model_to_onnx.py
 ```
 
+※onnx モジュールが存在しなくてエラー発生
+
+```bash
+# ... omit
+ModuleNotFoundError: No module named 'onnx'
+# ... omit
+```
+
+個別にインストールする
+
+```bash
+pip install onnx
+```
+
+ok. (`python convert_model_to_onnx.py`の実行後)
+
+```bash
+$ ls models/
+best-checkpoint.ckpt  model.onnx
+```
+
 ### Inference
 
 #### Inference using standard pytorch
