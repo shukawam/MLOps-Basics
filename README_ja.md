@@ -1,20 +1,49 @@
 # MLOps-Basics
 
-> There is nothing magic about magic. The magician merely understands something simple which doesn’t appear to be simple or natural to the untrained audience. Once you learn how to hold a card while making your hand look empty, you only need practice before you, too, can “do magic.” – Jeffrey Friedl in the book Mastering Regular Expressions
-
-**Note: Please raise an issue for any suggestions, corrections, and feedback.**
-
-このシリーズの目標は、モデル構築、モニタリング、コンフィグレーション、テスト、パッケージング、デプロイメント、CI/CD など、MLOps の基本的なことを理解することです。
+このシリーズの目標は、モデル構築、モニタリング、コンフィグレーション、テスト、パッケージング、デプロイメント、CI/CD など、MLOps の基本的なことを理解すること。
 
 ![pl](images/summary.png)
 
-## Week 0: Project Setup
+## 前提
+
+以下の OCI サービスを活用します:
+
+- OCI DataScience
+  - Notebook セッションは、2OCPU, 32GB(メモリ), 100GB(ストレージ)以上であることが望ましい
+- Oracle Functions
+- API Gateway
+- OCI Logging
+- Service Connector Hub
+- Search Service with OpenSearch
+
+## toc
+
+<!-- @import "[TOC]" {cmd="toc" depthFrom=3 depthTo=6 orderedList=false} -->
+
+<!-- code_chunk_output -->
+
+- [Week 0: Project Setup](#week-0-project-setup)
+- [Week 1: Model monitoring - Weights and Biases](#week-1-model-monitoring---weights-and-biases)
+- [Week 2: Configurations - Hydra](#week-2-configurations---hydra)
+- [Week 3: Data Version Control - DVC](#week-3-data-version-control---dvc)
+- [Week 4: Model Packaging - ONNX](#week-4-model-packaging---onnx)
+- [Week 5: Model Packaging - Docker](#week-5-model-packaging---docker)
+- [Week 6: CI/CD - GitHub Actions](#week-6-cicd---github-actions)
+- [Week 7: Container Registry - AWS ECR](#week-7-container-registry---aws-ecr)
+- [Week 8: Serverless Deployment - AWS Lambda](#week-8-serverless-deployment---aws-lambda)
+- [Week 9: Prediction Monitoring - Kibana](#week-9-prediction-monitoring---kibana)
+
+<!-- /code_chunk_output -->
+
+## Weeks
+
+### Week 0: Project Setup
 
 <img src="https://img.shields.io/static/v1.svg?style=for-the-badge&label=difficulty&message=easy&color=green"/>
 
 参考: [https://www.ravirajag.dev/blog/mlops-project-setup-part1](https://www.ravirajag.dev/blog/mlops-project-setup-part1)
 
-実施したプロジェクトは、簡単な分類の問題です。今週の範囲は、以下のトピックを理解することです
+今週のスコープ:
 
 - どのようにデータを取得するか？
 - どのようにデータを処理するか？
@@ -25,150 +54,146 @@
 
 ![pl](images/pl.jpeg)
 
-以下の技術スタックを使用しています
+技術スタック:
 
 - [Huggingface Datasets](https://github.com/huggingface/datasets)
 - [Huggingface Transformers](https://github.com/huggingface/transformers)
 - [Pytorch Lightning](https://pytorch-lightning.readthedocs.io/)
 
-## Week 1: Model monitoring - Weights and Biases
+### Week 1: Model monitoring - Weights and Biases
 
 <img src="https://img.shields.io/static/v1.svg?style=for-the-badge&label=difficulty&message=easy&color=green"/>
 
-Refer to the [Blog Post here](https://www.ravirajag.dev/blog/mlops-wandb-integration)
+参考: [https://www.ravirajag.dev/blog/mlops-wandb-integration](https://www.ravirajag.dev/blog/mlops-wandb-integration)
 
-Tracking all the experiments like tweaking hyper-parameters, trying different models to test their performance and seeing the connection between model and the input data will help in developing a better model.
+ハイパーパラメーターを調整する、さまざまなモデルを試して性能をテストする、モデルと入力データとの関連性を確認するなど、すべての実験を追跡することは、より良いモデルを開発するのに役立つ。
 
-The scope of this week is to understand the following topics:
+今週のスコープ:
 
-- `How to configure basic logging with W&B?`
-- `How to compute metrics and log them in W&B?`
-- `How to add plots in W&B?`
-- `How to add data samples to W&B?`
+- W&B で基本的なロギングを設定する方法
+- W&B でメトリクスを計算し、ログを取る方法
+- W&B でプロットを追加する方法
+- W&B にデータサンプルを追加する方法
 
 ![wannb](images/wandb.png)
 
-Following tech stack is used:
+技術スタック:
 
 - [Weights and Biases](https://wandb.ai/site)
 - [torchmetrics](https://torchmetrics.readthedocs.io/)
 
-References:
+参考資料:
 
 - [Tutorial on Pytorch Lightning + Weights & Bias](https://www.youtube.com/watch?v=hUXQm46TAKc)
 
 - [WandB Documentation](https://docs.wandb.ai/)
 
-## Week 2: Configurations - Hydra
+### Week 2: Configurations - Hydra
 
 <img src="https://img.shields.io/static/v1.svg?style=for-the-badge&label=difficulty&message=easy&color=green"/>
 
-Refer to the [Blog Post here](https://www.ravirajag.dev/blog/mlops-hydra-config)
+参考: [https://www.ravirajag.dev/blog/mlops-hydra-config](https://www.ravirajag.dev/blog/mlops-hydra-config)
 
-Configuration management is a necessary for managing complex software systems. Lack of configuration management can cause serious problems with reliability, uptime, and the ability to scale a system.
+構成管理は、複雑なソフトウェアシステムを管理するために必要なものです。構成管理の欠如は、信頼性、アップタイム、およびシステムを拡張する能力に深刻な問題を引き起こす可能性があります。
 
-The scope of this week is to understand the following topics:
+今週のスコープ:
 
-- `Basics of Hydra`
-- `Overridding configurations`
-- `Splitting configuration across multiple files`
-- `Variable Interpolation`
-- `How to run model with different parameter combinations?`
+- Hydra の基本
+- コンフィギュレーションのオーバーライド
+- 複数のファイルに渡る設定の分割
+- 変数補間
+- 異なるパラメータの組み合わせでモデルを実行する方法
 
 ![hydra](images/hydra.png)
 
-Following tech stack is used:
+技術スタック:
 
 - [Hydra](https://hydra.cc/)
 
-References
+参考資料:
 
 - [Hydra Documentation](https://hydra.cc/docs/intro)
 
 - [Simone Tutorial on Hydra](https://www.sscardapane.it/tutorials/hydra-tutorial/#executing-multiple-runs)
 
-## Week 3: Data Version Control - DVC
+### Week 3: Data Version Control - DVC
 
 <img src="https://img.shields.io/static/v1.svg?style=for-the-badge&label=difficulty&message=easy&color=green"/>
 
-Refer to the [Blog Post here](https://www.ravirajag.dev/blog/mlops-dvc)
+参考: [https://www.ravirajag.dev/blog/mlops-dvc](https://www.ravirajag.dev/blog/mlops-dvc)
 
-Classical code version control systems are not designed to handle large files, which make cloning and storing the history impractical. Which are very common in Machine Learning.
+古典的なコードのバージョン管理システムは、大きなファイルを扱うように設計されていないため、クローンや履歴の保存は非現実的。どれが機械学習で非常によくあることなのか。
 
-The scope of this week is to understand the following topics:
+今週のスコープ:
 
-- `Basics of DVC`
-- `Initialising DVC`
-- `Configuring Remote Storage`
-- `Saving Model to the Remote Storage`
-- `Versioning the models`
+- DVC の基本
+- DVC の初期化
+- リモートストレージの設定
+- モデルをリモートストレージに保存する
+- モデルのバージョン管理
 
 ![dvc](images/dvc.png)
 
-Following tech stack is used:
+技術スタック:
 
 - [DVC](https://dvc.org/)
 
-References
+参考資料:
 
 - [DVC Documentation](https://dvc.org/doc)
 
 - [DVC Tutorial on Versioning data](https://www.youtube.com/watch?v=kLKBcPonMYw)
 
-## Week 4: Model Packaging - ONNX
+### Week 4: Model Packaging - ONNX
 
 <img src="https://img.shields.io/static/v1.svg?style=for-the-badge&label=difficulty&message=medium&color=orange"/>
 
-Refer to the [Blog Post here](https://www.ravirajag.dev/blog/mlops-onnx)
+参考: [https://www.ravirajag.dev/blog/mlops-onn](https://www.ravirajag.dev/blog/mlops-onn)
 
-Why do we need model packaging? Models can be built using any machine learning framework available out there (sklearn, tensorflow, pytorch, etc.). We might want to deploy models in different environments like (mobile, web, raspberry pi) or want to run in a different framework (trained in pytorch, inference in tensorflow).
-A common file format to enable AI developers to use models with a variety of frameworks, tools, runtimes, and compilers will help a lot.
+なぜモデルのパッケージ化が必要なのか？モデルは機械学習フレームワーク（sklearn, tensorflow, pytorch など）を使って構築することができます。モバイル、ウェブ、ラズベリーパイといった異なる環境でモデルを展開したい、あるいは異なるフレームワークで実行したい（pytorch で学習し、tensorflow で推論する）かもしれません。
+AI 開発者が様々なフレームワーク、ツール、ランタイム、コンパイラでモデルを使用できるようにするための共通のファイルフォーマットは、多くの助けになるでしょう。
 
-This is acheived by a community project `ONNX`.
+これは、コミュニティプロジェクト`ONNX`によって実現される。
 
-The scope of this week is to understand the following topics:
+今週のスコープ:
 
-- `What is ONNX?`
-
-- `How to convert a trained model to ONNX format?`
-
-- `What is ONNX Runtime?`
-
-- `How to run ONNX converted model in ONNX Runtime?`
-
-- `Comparisions`
+- ONNX とは？
+- 学習済みモデルを ONNX 形式に変換するには？
+- ONNX Runtime とは？
+- ONNX に変換されたモデルを ONNX Runtime で実行するには？
+- 比較表
 
 ![ONNX](images/onnx.jpeg)
 
-Following tech stack is used:
+技術スタック:
 
 - [ONNX](https://onnx.ai/)
 - [ONNXRuntime](https://www.onnxruntime.ai/)
 
-References
+参考資料:
 
 - [Abhishek Thakur tutorial on onnx model conversion](https://www.youtube.com/watch?v=7nutT3Aacyw)
 - [Pytorch Lightning documentation on onnx conversion](https://pytorch-lightning.readthedocs.io/en/stable/common/production_inference.html)
 - [Huggingface Blog on ONNXRuntime](https://medium.com/microsoftazure/accelerate-your-nlp-pipelines-using-hugging-face-transformers-and-onnx-runtime-2443578f4333)
 - [Piotr Blog on onnx conversion](https://tugot17.github.io/data-science-blog/onnx/tutorial/2020/09/21/Exporting-lightning-model-to-onnx.html)
 
-## Week 5: Model Packaging - Docker
+### Week 5: Model Packaging - Docker
 
 <img src="https://img.shields.io/static/v1.svg?style=for-the-badge&label=difficulty&message=easy&color=green"/>
 
-Refer to the [Blog Post here](https://www.ravirajag.dev/blog/mlops-docker)
+参考: [https://www.ravirajag.dev/blog/mlops-docker](https://www.ravirajag.dev/blog/mlops-docker)
 
-Why do we need packaging? We might have to share our application with others, and when they try to run the application most of the time it doesn’t run due to dependencies issues / OS related issues and for that, we say (famous quote across engineers) that `It works on my laptop/system`.
+なぜパッケージングが必要なのでしょうか？私たちはアプリケーションを他の人と共有しなければならないかもしれません。
 
-So for others to run the applications they have to set up the same environment as it was run on the host side which means a lot of manual configuration and installation of components.
+そのため、他の人がアプリケーションを実行するには、ホスト側で実行されたのと同じ環境を構築する必要があり、多くの手動設定とコンポーネントのインストールを意味します。
 
-The solution to these limitations is a technology called Containers.
+このような制限を解決するのが、コンテナという技術です。
 
-By containerizing/packaging the application, we can run the application on any cloud platform to get advantages of managed services and autoscaling and reliability, and many more.
+アプリケーションをコンテナ化/パッケージ化することで、任意のクラウドプラットフォーム上でアプリケーションを実行し、マネージドサービスやオートスケール、信頼性などの利点を得ることができる。
 
-The most prominent tool to do the packaging of application is Docker 🛳
+アプリケーションのパッケージ化を行うための最も著名なツールは Docker🛳 です。
 
-The scope of this week is to understand the following topics:
+今週のスコープ:
 
 - `FastAPI wrapper`
 - `Basics of Docker`
@@ -177,11 +202,11 @@ The scope of this week is to understand the following topics:
 
 ![Docker](images/docker_flow.png)
 
-References
+参考資料:
 
 - [Analytics vidhya blog](https://www.analyticsvidhya.com/blog/2021/06/a-hands-on-guide-to-containerized-your-machine-learning-workflow-with-docker/)
 
-## Week 6: CI/CD - GitHub Actions
+### Week 6: CI/CD - GitHub Actions
 
 <img src="https://img.shields.io/static/v1.svg?style=for-the-badge&label=difficulty&message=medium&color=orange"/>
 
@@ -208,7 +233,7 @@ References
 
 - [Github actions](https://docs.github.com/en/actions/quickstart)
 
-## Week 7: Container Registry - AWS ECR
+### Week 7: Container Registry - AWS ECR
 
 <img src="https://img.shields.io/static/v1.svg?style=for-the-badge&label=difficulty&message=medium&color=orange"/>
 
@@ -232,7 +257,7 @@ In this week, I will be going through the following topics:
 
 ![Docker](images/ecr_flow.png)
 
-## Week 8: Serverless Deployment - AWS Lambda
+### Week 8: Serverless Deployment - AWS Lambda
 
 <img src="https://img.shields.io/static/v1.svg?style=for-the-badge&label=difficulty&message=medium&color=orange"/>
 
@@ -254,7 +279,7 @@ In this week, I will be going through the following topics:
 
 ![Docker](images/lambda_flow.png)
 
-## Week 9: Prediction Monitoring - Kibana
+### Week 9: Prediction Monitoring - Kibana
 
 <img src="https://img.shields.io/static/v1.svg?style=for-the-badge&label=difficulty&message=medium&color=orange"/>
 
