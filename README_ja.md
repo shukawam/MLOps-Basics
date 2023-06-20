@@ -210,27 +210,26 @@ AI 開発者が様々なフレームワーク、ツール、ランタイム、�
 
 <img src="https://img.shields.io/static/v1.svg?style=for-the-badge&label=difficulty&message=medium&color=orange"/>
 
-Refer to the [Blog Post here](https://www.ravirajag.dev/blog/mlops-github-actions)
+参考: [https://www.ravirajag.dev/blog/mlops-github-actions](https://www.ravirajag.dev/blog/mlops-github-actions)
 
-CI/CD is a coding philosophy and set of practices with which you can continuously build, test, and deploy iterative code changes.
+CI/CD は、コーディングの哲学であり、反復的なコード変更を継続的に構築、テスト、デプロイするための一連のプラクティスである。
 
-This iterative process helps reduce the chance that you develop new code based on a buggy or failed previous versions. With this method, you strive to have less human intervention or even no intervention at all, from the development of new code until its deployment.
+この反復プロセスは、バグや失敗した旧バージョンを基に新しいコードを開発する可能性を減らすのに役立ちます。この方法では、新しいコードの開発からデプロイまで、人間の介入を少なくする、あるいは全く介入しないように努力します。
 
-In this post, I will be going through the following topics:
+この記事では、以下のトピックについて解説していきます：
 
-- Basics of GitHub Actions
-- First GitHub Action
-- Creating Google Service Account
-- Giving access to Service account
-- Configuring DVC to use Google Service account
-- Configuring Github Action
+- GitHub アクションの基本
+- 最初の GitHub アクション
+- Google サービスアカウントの作成
+- サービスアカウントへのアクセス権付与
+- Google Service アカウントを使用するための DVC の設定
+- GitHub アクションの設定
 
 ![Docker](images/basic_flow.png)
 
-References
+参考資料:
 
 - [Configuring service account](https://dvc.org/doc/user-guide/setup-google-drive-remote)
-
 - [Github actions](https://docs.github.com/en/actions/quickstart)
 
 ### Week 7: Container Registry - AWS ECR
