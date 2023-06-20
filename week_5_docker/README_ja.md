@@ -116,6 +116,12 @@ Docker のインストール手順: [https://docs.docker.com/engine/install/](ht
 docker build -t inference:latest .
 ```
 
+（任意）後ほど、OCIR へプッシュすることを考えるとコンテナイメージ名は以下のようにしておいた方が良いかもしれません。(region, path 等は任意)
+
+```bash
+docker build -t nrt.ocir.io/orasejapan/shukawam/inference:latest .
+```
+
 コマンドを使用してコンテナを実行します。
 
 ```shell
@@ -128,6 +134,20 @@ docker run -p 8000:8000 --name inference_container inference:latest
 
 ```shell
 docker-compose up
+```
+
+※OCI DataScience で実行している場合、Docker のランタイムが含まれていないため OCI DataScience に Docker をインストールするか Docker がセットアップされている環境にモデルをコピーすると良いです。Dockerfile も一部修正しています。
+
+```diff
+- RUN pip install -r requirements_prod.txt
++ RUN pip install -r requirements_inference.txt
+```
+
+また、使用している Base Image では `datasets==2.10.1` が非対応だったためインストール可能な最新バージョン `datasets==2.4.0` へ修正しています。
+
+```diff
+- datasets==2.10.1
++ datasets==2.4.0
 ```
 
 ### Running notebooks
